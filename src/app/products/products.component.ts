@@ -12,6 +12,7 @@ import { Product } from '../model/product.model';
   styleUrl: './products.component.css',
 })
 export class ProductsComponent {
+
   products!: Product[];
   errorMessage!: String;
 
@@ -42,4 +43,8 @@ export class ProductsComponent {
       },
     });
   }
+  handlePromotion(p:Product) :void{
+      let index = this.products.indexOf(p);
+      this.products[index].promotion = !this.products[index].promotion
+    }
 }

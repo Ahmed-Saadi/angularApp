@@ -6,6 +6,9 @@
   </ng-template>
   <div class="card" *ngIf="products,else error">
     <div class="card-header">List of Products</div>
+    <form >
+      
+    </form>
     <div class="card-body">
       <table class="table">
         <thead>
@@ -26,11 +29,17 @@
                 <td>
                     {{p.price}}
                 </td>
+                <td><span class="bi bi-bag-check-fill text-success fs-5" *ngIf="p.promotion"></span></td>
+                <td><button class="btn " [class]="p.promotion ? 'btn-danger' : 'btn-success' " (click) = "handlePromotion(p)">
+                  <p *ngIf="!p.promotion">Promo ON</p>
+                  <p *ngIf="p.promotion">Promo OFF</p>
+                </button> </td>
                 <td>
                     <button (click)="handleDeleteProduct(p)" class="btn btn-danger ">
                         <i class="bi bi-trash"></i>
                     </button>
                 </td>
+                
             </tr>
         </tbody>
       </table>
