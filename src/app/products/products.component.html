@@ -1,15 +1,27 @@
 <div class="container">
   <ng-template #error>
-      <div class="text-danger">
-        {{errorMessage}}
-      </div>
+    <div class="text-danger">
+      {{ errorMessage }}
+    </div>
   </ng-template>
-  <div class="card" *ngIf="products,else error">
+  <div class="card" *ngIf="products; else error">
     <div class="card-header">List of Products</div>
-    <form >
-      
-    </form>
+
     <div class="card-body">
+      <form [formGroup]="searchFormGroup" (ngSubmit)="handleSubmitForm()">
+        <div class="input-group">
+          <label class="input-group-text fw-bold">keyword</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="keyword"
+            onchange="handleOnchange()"
+          />
+          <button class="btn btn-info">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </form>
       <table class="table">
         <thead>
           <tr>
@@ -19,30 +31,43 @@
           </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let p of products">
-                <td>
-                    {{p.id}}
-                </td>
-                <td>
-                    {{p.name}}
-                </td>
-                <td>
-                    {{p.price}}
-                </td>
-                <td><span class="bi bi-bag-check-fill text-success fs-5" *ngIf="p.promotion"></span></td>
-                <td><button class="btn " [class]="p.promotion ? 'btn-danger' : 'btn-success' " (click) = "handlePromotion(p)">
-                  <p *ngIf="!p.promotion">Promo ON</p>
-                  <p *ngIf="p.promotion">Promo OFF</p>
-                </button> </td>
-                <td>
-                    <button (click)="handleDeleteProduct(p)" class="btn btn-danger ">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
-                
-            </tr>
+          <tr *ngFor="let p of products">
+            <td>
+              {{ p.id }}
+            </td>
+            <td>
+              {{ p.name }}
+            </td>
+            <td>
+              {{ p.price }}
+            </td>
+            <td>
+              <span
+                class="bi bi-bag-check-fill text-success fs-5"
+                *ngIf="p.promotion"
+              ></span>
+            </td>
+            <td>
+              <button
+                class="btn"
+                [class]="p.promotion ? 'btn-danger' : 'btn-success'"
+                (click)="handlePromotion(p)"
+              >
+                <p *ngIf="!p.promotion">Promo ON</p>
+                <p *ngIf="p.promotion">Promo OFF</p>
+              </button>
+            </td>
+            <td>
+              <button (click)="handleDeleteProduct(p)" class="btn btn-danger">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
         </tbody>
       </table>
+      <ul class="nav nav-pills"><li *ngFor="let item of [].constructor(this.totalPage);let i = index">
+        <a (click)="gotoPage(i)" [ngClass]="i == currentPage ? 'btn-info' : 'btn-outline-info' " class="btn ms-1 mt-1">{{i}}</a>
+      </li></ul>
     </div>
   </div>
 </div>
